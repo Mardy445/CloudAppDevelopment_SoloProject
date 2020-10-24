@@ -4,62 +4,8 @@ let cinfname = document.getElementById("cin_fname");
 let venue = null;
 let users = [];
 
-let checkinSearchBarFunctionality = new BootstrapSearchBarListFunctionality('venueSearchBar','userSearchBar','venueList','userList',venueListElementListener,userListElementListener);
-/*
-//document.getElementById('inputNewUser').addEventListener('submit', submitCheckIn);
-venueSearchBar.addEventListener('input',refreshVenueSearch);
-userSearchBar.addEventListener('input',refreshUserSearch);
-
-//This function will take the value from the venueSearchBar, convert it into a query, and pass it to the request for data function
-function refreshVenueSearch() {
-    let input = venueSearchBar.value;
-    let input2 = input.slice(0,-1) + String.fromCharCode(input.charCodeAt(input.length-1)+1);
-    let query = input ? "PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "'": input;
-    sendRequestForData(query,"https://cloudindividualprojectfa.azurewebsites.net/api/getVenues",fillVenueList)
-}
-
-//This function will take the value from the userSearchBar, convert it into a query, and pass it to the request for data function
-function refreshUserSearch() {
-    let input = userSearchBar.value;
-    let input2 = input.slice(0,-1) + String.fromCharCode(input.charCodeAt(input.length-1)+1);
-    let query = input ? "(PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "') or (Surname ge '" + input + "' and Surname lt '" + input2 + "')": input;
-    sendRequestForData(query,"https://cloudindividualprojectfa.azurewebsites.net/api/getUsers",fillUserList)
-}
-
-//Given an array of objects (data), take each object and convert it into a bootstrap list element
-//Each element is given an event listener and then appended to the venue list.
-function fillVenueList(data) {
-    ulvenue.innerHTML = "";
-    for(let i = 0; i < data.length; i++){
-        let value = data[i];
-        let a = createBootstrapListElement(value.PartitionKey + ", " + value.RowKey);
-        a.addEventListener("click",(e => venueListElementListener(e,value)));
-        ulvenue.append(a);
-    }
-}
-
-//Given an array of objects (data), take each object and convert it into a bootstrap list element
-//Each element is given an event listener and then appended to the user list.
-function fillUserList(data) {
-    uluser.innerHTML = "";
-    for(let i = 0; i < data.length; i++){
-        let value = data[i];
-        let a = createBootstrapListElement(value.Surname + ", " + value.PartitionKey + ", " + value.RowKey);
-        a.addEventListener("click",(e => userListElementListener(e,value)));
-        uluser.append(a);
-    }
-}
-
-//Given a string, returns a new bootstrap list element with that text
-function createBootstrapListElement(string) {
-    let a = document.createElement("a");
-    a.className = "list-group-item list-group-item-action";
-    a.href = "#";
-    a.appendChild(document.createTextNode(string));
-    return a;
-}
-
- */
+let checkinVenueSearchBarFunctionality = new BootstrapSearchBarListFunctionality('venueSearchBar','venueList',venueListElementListener,"https://cloudindividualprojectfa.azurewebsites.net/api/getVenues",(input,input2) => input ? "PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "'": input, (value) => value.PartitionKey + ", " + value.RowKey);
+let checkinUserSearchBarFunctionality = new BootstrapSearchBarListFunctionality('userSearchBar','userList',userListElementListener,"https://cloudindividualprojectfa.azurewebsites.net/api/getUsers",(input,input2) => input ? "(PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "') or (Surname ge '" + input + "' and Surname lt '" + input2 + "')": input, (value) => value.Surname + ", " + value.PartitionKey + ", " + value.RowKey);
 
 //If an element of the bootstrap venue list is clicked, replace the current selected venue with the clicked venue
 function venueListElementListener(e,obj) {

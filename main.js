@@ -1,9 +1,15 @@
 
 
 document.getElementById('checkinTab').addEventListener('click', checkinTabClicked);
+document.getElementById('viewTab').addEventListener('click', viewCheckInTabClicked);
 
 function checkinTabClicked() {
     emptyCheckInValues();
-    checkinSearchBarFunctionality.refreshVenueSearch();
-    checkinSearchBarFunctionality.refreshUserSearch();
+    checkinVenueSearchBarFunctionality.refreshSearch();
+    checkinUserSearchBarFunctionality.refreshSearch();
+}
+
+function viewCheckInTabClicked() {
+    viewDataVenuesSearchBarFunctionality.refreshSearch();
+    viewDataUsersSearchBarFunctionality.refreshSearch();
 }
