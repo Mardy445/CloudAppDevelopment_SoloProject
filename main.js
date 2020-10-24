@@ -13,3 +13,16 @@ function viewCheckInTabClicked() {
     viewDataVenuesSearchBarFunctionality.refreshSearch();
     viewDataUsersSearchBarFunctionality.refreshSearch();
 }
+
+function sendRequestForData(query, url, response) {
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            query: query,
+        })
+    }).then((res) => res.json().then((data) => response(data)))
+}

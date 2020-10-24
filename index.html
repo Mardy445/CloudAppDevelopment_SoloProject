@@ -39,7 +39,22 @@
     </div>
 
     <div id="report" class="tab-pane fade">
-        <h3>Report</h3>
+        <div class="standard-div">
+            <h3>Report Case of Covid-19</h3>
+            <label>
+                <input id="reportCaseSearchBar" type="text" class="padding" placeholder="Search..">
+            </label>
+            <div class="list-group standard-div" id="reportCaseUserList">
+
+            </div>
+            <form id="reportCaseForm">
+                <div class="form-group">
+                    <label for="reportUserFinalInput">Selected User:</label>
+                    <input type="text" class="form-control" id="reportUserFinalInput" readonly>
+                </div>
+                <input type="submit" class="btn btn-secondary" value="Submit">
+            </form>
+        </div>
     </div>
 
     <div id="add" class="tab-pane fade">
@@ -106,8 +121,8 @@
 
             </div>
             <form id="checkInForm">
-                <label for="checkin_date_picker" class="padding">Date and Time of Check In:</label>
-                <input type="datetime-local" id="checkin_date_picker">
+                <label for="checkinDatePicker" class="padding">Date and Time of Check In:</label>
+                <input type="datetime-local" id="checkinDatePicker">
                 <div class="form-group">
                     <label for="cin_vname">Venue:</label>
                     <input type="text" class="form-control" id="cin_vname" readonly>
@@ -144,13 +159,16 @@
 
                 </div>
             </div>
-            <table class="table standard-div" id="viewdata_table">
+            <table class="table standard-div">
                 <thead>
                     <tr id="viewdata_table_columns">
-                        <th scope="col">Venue</th>
+                        <th scope="col">User</th>
                         <th scope="col">Datetime</th>
                     </tr>
                 </thead>
+                <tbody id="viewdata_table">
+
+                </tbody>
             </table>
 
     </div>

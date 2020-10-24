@@ -1,18 +1,18 @@
 class BootstrapSearchBarListFunctionality {
     constructor(searchBar, ul, listElementListener, url, queryFunction, stringFormatterFunction) {
-        this.searchBar = document.getElementById(searchBar);
-        this.ul = document.getElementById(ul);
+        this.searchBar = searchBar;
+        this.ul = ul;
         this.listElementListener = listElementListener;
         this.url = url;
         this.queryFunction = queryFunction;
         this.sff = stringFormatterFunction;
 
-        this.searchBar.addEventListener('input',this.refreshSearch);
+        document.getElementById(this.searchBar).addEventListener('input',() => this.refreshSearch());
     }
 
     //This function will take the value from the venueSearchBar, convert it into a query, and pass it to the request for data function
     refreshSearch() {
-        let input = this.searchBar.value;
+        let input = document.getElementById(this.searchBar).value;
         let input2 = input.slice(0,-1) + String.fromCharCode(input.charCodeAt(input.length-1)+1);
         let query = this.queryFunction(input,input2);
         this.sendRequestForData(query,this.url)
@@ -21,12 +21,12 @@ class BootstrapSearchBarListFunctionality {
     //Given an array of objects (data), take each object and convert it into a bootstrap list element
     //Each element is given an event listener and then appended to the venue list.
     fillList(data) {
-        this.ul.innerHTML = "";
+        document.getElementById(this.ul).innerHTML = "";
         for(let i = 0; i < data.length; i++){
             let value = data[i];
             let a = BootstrapSearchBarListFunctionality.createBootstrapListElement(this.sff(value));
             a.addEventListener("click",(e => this.listElementListener(e,value)));
-            this.ul.append(a);
+            document.getElementById(this.ul).append(a);
         }
     }
 

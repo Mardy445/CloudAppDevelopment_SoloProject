@@ -4,8 +4,8 @@ let cinfname = document.getElementById("cin_fname");
 let venue = null;
 let users = [];
 
-let checkinVenueSearchBarFunctionality = new BootstrapSearchBarListFunctionality('venueSearchBar','venueList',venueListElementListener,"https://cloudindividualprojectfa.azurewebsites.net/api/getVenues",(input,input2) => input ? "PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "'": input, (value) => value.PartitionKey + ", " + value.RowKey);
-let checkinUserSearchBarFunctionality = new BootstrapSearchBarListFunctionality('userSearchBar','userList',userListElementListener,"https://cloudindividualprojectfa.azurewebsites.net/api/getUsers",(input,input2) => input ? "(PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "') or (Surname ge '" + input + "' and Surname lt '" + input2 + "')": input, (value) => value.Surname + ", " + value.PartitionKey + ", " + value.RowKey);
+let checkinVenueSearchBarFunctionality = new BootstrapSearchBarListFunctionality("venueSearchBar","venueList",venueListElementListener,"https://cloudindividualprojectfa.azurewebsites.net/api/getVenues",(input,input2) => input ? "PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "'": input, (value) => value.PartitionKey + ", " + value.RowKey);
+let checkinUserSearchBarFunctionality = new BootstrapSearchBarListFunctionality("userSearchBar","userList",userListElementListener,"https://cloudindividualprojectfa.azurewebsites.net/api/getUsers",(input,input2) => input ? "(PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "') or (Surname ge '" + input + "' and Surname lt '" + input2 + "')": input, (value) => value.Surname + ", " + value.PartitionKey + ", " + value.RowKey);
 
 //If an element of the bootstrap venue list is clicked, replace the current selected venue with the clicked venue
 function venueListElementListener(e,obj) {
@@ -72,7 +72,7 @@ function submitCheckIn() {
 //Given a user (user), attempts to check them in to the specified venue
 function submitUserForCheckIn(user) {
     let pkey = user.Surname + "_" + user.RowKey;
-    let rkey = document.getElementById("checkin_date_picker").value;
+    let rkey = document.getElementById("checkinDatePicker").value;
     let fname = user.PartitionKey;
     let vname = venue.PartitionKey
 
