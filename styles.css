@@ -1,0 +1,41 @@
+.navbar-custom {
+    border-radius: 0px 0px 12px 12px !important;
+    background-color: #1d1d1d !important;
+}
+
+.navbar-title {
+    color: #92b6bc !important;
+}
+
+.pane-body {
+    margin: 10px;
+}
+
+.standard-div {
+    border-style: solid;
+    border-width: 1px;
+    border-color: darkslategrey;
+    border-radius: 5px;
+    margin: 10px !important;
+}
+
+.form-group {
+    max-width: 500px !important;
+}
+
+h3, .form-group, .btn, .list-group, .padding{
+    margin: 10px !important;
+    padding: 5px !important;
+    padding-bottom: 0 !important;
+}
+
+.list-group{
+    max-height: 300px;
+    min-height: 30px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.side-by-side-div{
+    float: left;
+}
