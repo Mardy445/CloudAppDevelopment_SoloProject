@@ -1,9 +1,12 @@
 let cinvname = document.getElementById("cin_vname");
 let cinfname = document.getElementById("cin_fname");
 
+let checkInAlerter = new ErrorMessageFunctionality("checkinAlertDiv");
+
 let venue = null;
 let users = [];
 
+//Instances of BootsrapSearchBarListFunctionality to link a search bar to a Bootstrap list
 let checkinVenueSearchBarFunctionality = new BootstrapSearchBarListFunctionality("venueSearchBar","venueList",venueListElementListener,"https://cloudindividualprojectfa.azurewebsites.net/api/getVenues",(input,input2) => input ? "PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "'": input, (value) => value.PartitionKey + ", " + value.RowKey);
 let checkinUserSearchBarFunctionality = new BootstrapSearchBarListFunctionality("userSearchBar","userList",userListElementListener,"https://cloudindividualprojectfa.azurewebsites.net/api/getUsers",(input,input2) => input ? "(PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "') or (Surname ge '" + input + "' and Surname lt '" + input2 + "')": input, (value) => value.Surname + ", " + value.PartitionKey + ", " + value.RowKey);
 
@@ -56,10 +59,13 @@ function getIndexOfUser(obj){
 //An error message will be returns if no venue or users are selected.
 function submitCheckIn() {
     if(venue === null){
-        addErrorMessageAlertToCheckInSection("The form cannot be submitted unless you select a venue!")
+        checkInAlerter.alertError("The form cannot be submitted unless you select a venue!")
     }
     else if(users.length === 0){
-        addErrorMessageAlertToCheckInSection("The form cannot be submitted unless you select at least 1 user!")
+        checkInAlerter.alertError("The form cannot be submitted unless you select at least 1 user!")
+    }
+    else if(document.getElementById("checkinDatePicker").value === ""){
+        checkInAlerter.alertError("Please select a valid date")
     }
     else{
         for(let i = 0; i < users.length; i++){
@@ -88,19 +94,7 @@ function submitUserForCheckIn(user) {
             fname: fname,
             vname: vname
         })
-    }).then((res) => res.status===200 ? () => addSuccessMessageAlertToCheckInSection("Form Submitted!") : addErrorMessageAlertToCheckInSection("Error submitting form"))
+    }).then((res) => res.status === 200 ? checkInAlerter.alertSuccess("Form Submitted!") : checkInAlerter.alertError("Error submitting form"))
 }
 
-//Displays an error message on the check in section screen with the given message
-function addErrorMessageAlertToCheckInSection(msg) {
-    document.getElementById("checkinAlertDiv").innerHTML = '<div class="alert alert-danger alert-dismissible padding" role="alert">' +
-        msg +
-        '</div>';
-}
 
-//Displays a success message on the check in section screen with the given message
-function addSuccessMessageAlertToCheckInSection(msg) {
-    document.getElementById("checkinAlertDiv").innerHTML = '<div class="alert alert-success alert-dismissible padding" role="alert">' +
-        msg +
-        '</div>';
-}

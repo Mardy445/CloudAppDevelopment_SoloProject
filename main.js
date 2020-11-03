@@ -1,7 +1,17 @@
+//This is the main file
+//This file contains event listeners for elements relating to the navbar
+//It also will contain any functions that are useful for multiple other files
 
-
+//Each tab is given an event listener which will activate upon click
+document.getElementById('alertsTab').addEventListener('click', alertsTabClicked);
+document.getElementById('reportTab').addEventListener('click', reportTabClicked);
+document.getElementById('addTab').addEventListener('click', addTabClicked);
 document.getElementById('checkinTab').addEventListener('click', checkinTabClicked);
 document.getElementById('viewTab').addEventListener('click', viewCheckInTabClicked);
+
+function alertsTabClicked() {
+    getAlerts();
+}
 
 function checkinTabClicked() {
     emptyCheckInValues();
@@ -14,6 +24,16 @@ function viewCheckInTabClicked() {
     viewDataUsersSearchBarFunctionality.refreshSearch();
 }
 
+function reportTabClicked() {
+    reportSearchBarFunctionality.refreshSearch();
+}
+
+function addTabClicked(){
+
+}
+
+//This function is used to call upon Azure API functions
+//It exists in main.js as every other file may need to use it
 function sendRequestForData(query, url, response) {
     fetch(url, {
         method: 'POST',

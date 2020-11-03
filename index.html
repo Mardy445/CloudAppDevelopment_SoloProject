@@ -35,19 +35,38 @@
 
 <div class="tab-content pane-body">
     <div id="alerts" class="tab-pane fade in active">
-        <h3>Alerts</h3>
+        <div class="standard-div">
+            <h3>List of All Users Who Should Self Isolate!</h3>
+            <table class="table standard-div">
+                <thead>
+                    <tr>
+                        <th scope="col">User</th>
+                        <th scope="col">User With Covid-19 Encountered</th>
+                        <th scope="col">Days Since Encounter With Case</th>
+                    </tr>
+                </thead>
+                <tbody id="viewAlertsTable">
+
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div id="report" class="tab-pane fade">
         <div class="standard-div">
             <h3>Report Case of Covid-19</h3>
+            <div id="reportCaseAlertDiv">
+
+            </div>
             <label>
                 <input id="reportCaseSearchBar" type="text" class="padding" placeholder="Search..">
             </label>
             <div class="list-group standard-div" id="reportCaseUserList">
 
             </div>
-            <form id="reportCaseForm">
+            <form id="reportCaseForm" onsubmit="return false">
+                <label for="reportDatePicker" class="padding">Date of Discovered Case:</label>
+                <input type="datetime-local" id="reportDatePicker">
                 <div class="form-group">
                     <label for="reportUserFinalInput">Selected User:</label>
                     <input type="text" class="form-control" id="reportUserFinalInput" readonly>
@@ -60,6 +79,9 @@
     <div id="add" class="tab-pane fade">
         <div class="standard-div">
             <h3>Add Users</h3>
+            <div id="addUserAlertDiv">
+
+            </div>
             <form id="inputNewUser">
                 <div class="form-group">
                     <label for="fname">First Name:</label>
@@ -78,6 +100,9 @@
         </div>
         <div class="standard-div">
             <h3>Add Venues</h3>
+            <div id="addVenueAlertDiv">
+
+            </div>
             <form id="inputNewVenue">
                 <div class="form-group">
                     <label for="vname">Venue Name:</label>
@@ -123,6 +148,7 @@
             <form id="checkInForm">
                 <label for="checkinDatePicker" class="padding">Date and Time of Check In:</label>
                 <input type="datetime-local" id="checkinDatePicker">
+
                 <div class="form-group">
                     <label for="cin_vname">Venue:</label>
                     <input type="text" class="form-control" id="cin_vname" readonly>
@@ -174,6 +200,9 @@
     </div>
 </div>
 <script src="BootstrapSearchBarListFunctionality.js"></script>
+<script src="ErrorMessageFunctionality.js"></script>
+<script src="SeeAlertsSection.js"></script>
+<script src="ReportCaseSection.js"></script>
 <script src="addNewEntitiesSection.js"></script>
 <script src="checkInSection.js"></script>
 <script src="viewCheckInsSection.js"></script>
