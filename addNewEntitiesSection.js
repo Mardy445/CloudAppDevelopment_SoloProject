@@ -8,9 +8,9 @@ let addVenueAlerter = new ErrorMessageFunctionality("addVenueAlertDiv");
 //Attempts to submit the data for a new user to Azure
 function submitNewUser(e) {
     e.preventDefault();
-    let fname = document.getElementById('fname').value;
-    let lname = document.getElementById('lname').value;
-    let email = document.getElementById('email').value;
+    let fname = document.getElementById('fname').value.toUpperCase();
+    let lname = document.getElementById('lname').value.toUpperCase();
+    let email = document.getElementById('email').value.toUpperCase();
     if(fname === "" || lname === "" || email === ""){
         addUserAlerter.alertError("All fields are required")
     }
@@ -26,7 +26,7 @@ function submitNewUser(e) {
                 lname: lname,
                 email: email
             })
-        }).then((res) => res.status === 200 ? addUserAlerter.alertSuccess("Successfully added user") : addUserAlerter.alertError("ERROR: Failed to add user (" + res.status + ")"))
+        }).then((res) => res.status === 200 ? addUserAlerter.alertSuccess(res.text()) : addUserAlerter.alertError(res.text()))
     }
 }
 
@@ -35,9 +35,9 @@ function submitNewUser(e) {
 function submitNewVenue(e) {
     e.preventDefault();
 
-    let vname = document.getElementById('vname').value;
-    let postcode = document.getElementById('postcode').value;
-    let address = document.getElementById('address').value
+    let vname = document.getElementById('vname').value.toUpperCase();
+    let postcode = document.getElementById('postcode').value.toUpperCase();
+    let address = document.getElementById('address').value.toUpperCase();
     if(vname === "" || postcode === "" || address === ""){
         addVenueAlerter.alertError("All fields are required")
     }

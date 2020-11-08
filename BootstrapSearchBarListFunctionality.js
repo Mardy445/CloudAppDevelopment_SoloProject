@@ -12,7 +12,7 @@ class BootstrapSearchBarListFunctionality {
 
     //This function will take the value from the venueSearchBar, convert it into a query, and pass it to the request for data function
     refreshSearch() {
-        let input = document.getElementById(this.searchBar).value;
+        let input = document.getElementById(this.searchBar).value.toUpperCase();
         let input2 = input.slice(0,-1) + String.fromCharCode(input.charCodeAt(input.length-1)+1);
         let query = this.queryFunction(input,input2);
         this.sendRequestForData(query,this.url)
@@ -34,7 +34,7 @@ class BootstrapSearchBarListFunctionality {
     static createBootstrapListElement(string) {
         let a = document.createElement("a");
         a.className = "list-group-item list-group-item-action";
-        a.href = "#";
+        a.href = "javascript:void();";
         a.appendChild(document.createTextNode(string));
         return a;
     }
