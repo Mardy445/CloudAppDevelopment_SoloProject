@@ -8,7 +8,7 @@ document.getElementById('reportTab').addEventListener('click', reportTabClicked)
 document.getElementById('addTab').addEventListener('click', addTabClicked);
 document.getElementById('checkinTab').addEventListener('click', checkinTabClicked);
 document.getElementById('viewTab').addEventListener('click', viewCheckInTabClicked);
-
+alertsTabClicked();
 function alertsTabClicked() {
     getAlerts();
 }
