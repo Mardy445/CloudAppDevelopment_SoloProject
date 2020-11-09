@@ -23,7 +23,7 @@ function userListElementListener(e,obj) {
         let a = BootstrapSearchBarListFunctionality.createBootstrapListElement(obj.Surname + " " + obj.PartitionKey);
         cinfname.append(a);
         users.push(obj);
-        a.addEventListener("click",(e => {cinfname.removeChild(a); removeUser(obj)}));
+        a.addEventListener("click",(() => {cinfname.removeChild(a); removeUser(obj)}));
     }
 }
 
@@ -81,10 +81,11 @@ function submitCheckIn() {
 
 //Given a user (user), attempts to check them in to the specified venue
 function submitUserForCheckIn(user) {
+    let currentSeconds = (new Date()).toISOString().split(":")[2];
     let pkey = user.Surname + "_" + user.RowKey;
-    let rkey = document.getElementById("checkinDatePicker").value;
+    let rkey = document.getElementById("checkinDatePicker").value + ":" + currentSeconds;
     let fname = user.PartitionKey;
-    let vname = venue.PartitionKey
+    let vname = venue.PartitionKey;
 
     sendRequestToAzure('https://cloudindividualprojectfa.azurewebsites.net/api/addNewCheckIn',
             (res) => res.status === 200 ? checkInAlerter.alertSuccess("Form Submitted!") : checkInAlerter.alertError("Error submitting form (" + res.status + ")"),
