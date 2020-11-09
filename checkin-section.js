@@ -8,7 +8,7 @@ let users = [];
 
 //Instances of BootsrapSearchBarListFunctionality to link a search bar to a Bootstrap list
 let checkinVenueSearchBarFunctionality = new BootstrapSearchBarListFunctionality("venueSearchBar","venueList",venueListElementListener,"https://cloudindividualprojectfa.azurewebsites.net/api/getVenues",(input,input2) => input ? "PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "'": input, (value) => value.PartitionKey + ", " + value.RowKey);
-let checkinUserSearchBarFunctionality = new BootstrapSearchBarListFunctionality("userSearchBar","userList",userListElementListener,"https://cloudindividualprojectfa.azurewebsites.net/api/getUsers",(input,input2) => input ? "(PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "') or (Surname ge '" + input + "' and Surname lt '" + input2 + "')": input, (value) => value.Surname + ", " + value.PartitionKey + ", " + value.RowKey);
+let checkinUserSearchBarFunctionality = new BootstrapSearchBarListFunctionality("userSearchBar","userList",userListElementListener,"https://cloudindividualprojectfa.azurewebsites.net/api/getUsers",(input,input2) => input ? "(PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "') or (Surname ge '" + input + "' and Surname lt '" + input2 + "')": input, (value) => value.Surname + ", " + value.PartitionKey + ", " + value.RowKey.toLowerCase());
 
 //If an element of the bootstrap venue list is clicked, replace the current selected venue with the clicked venue
 function venueListElementListener(e,obj) {
@@ -65,7 +65,7 @@ function submitCheckIn() {
         checkInAlerter.alertError("The form cannot be submitted unless you select at least 1 user!")
     }
     else if(document.getElementById("checkinDatePicker").value === ""){
-        checkInAlerter.alertError("Please select a valid date")
+        checkInAlerter.alertError("Please select a valid date and time")
     }
     else if(document.getElementById("checkinDatePicker").value > new Date().toISOString()){
         reportCaseAlerter.alertError("Cannot select date in the future")
@@ -86,7 +86,7 @@ function submitUserForCheckIn(user) {
     let fname = user.PartitionKey;
     let vname = venue.PartitionKey
 
-    sendRequestForData('https://cloudindividualprojectfa.azurewebsites.net/api/addNewCheckIn',
+    sendRequestToAzure('https://cloudindividualprojectfa.azurewebsites.net/api/addNewCheckIn',
             (res) => res.status === 200 ? checkInAlerter.alertSuccess("Form Submitted!") : checkInAlerter.alertError("Error submitting form (" + res.status + ")"),
             JSON.stringify({
                 pkey: pkey,

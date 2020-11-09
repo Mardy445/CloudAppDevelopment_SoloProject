@@ -25,6 +25,7 @@ function checkinTabClicked() {
 }
 
 function viewCheckInTabClicked() {
+    clearTable();
     viewDataVenuesSearchBarFunctionality.refreshSearch();
     viewDataUsersSearchBarFunctionality.refreshSearch();
 }
@@ -40,7 +41,8 @@ function addTabClicked(){
 
 //This function is used to call upon Azure API functions
 //It exists in main.js as every other file may need to use it
-function sendRequestForData(url, response, body, expectResult) {
+function sendRequestToAzure(url, response, body, expectResult) {
+    console.log("testtt")
     fetch(url, {
         method: 'POST',
         headers: {

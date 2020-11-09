@@ -28,7 +28,7 @@ function submitNewUser(e) {
     }
     else {
 
-        sendRequestForData('https://cloudindividualprojectfa.azurewebsites.net/api/InsertNewUser',
+        sendRequestToAzure('https://cloudindividualprojectfa.azurewebsites.net/api/InsertNewUser',
             (res) => res.status === 200 ? addUserAlerter.alertSuccess("Successfully added user") : res.status === 400 ? addUserAlerter.alertError("That is not a valid email address") : addUserAlerter.alertError("Failed to add user (" + res.status + ")"),
             JSON.stringify({
                 fname: fname,
@@ -51,7 +51,7 @@ function submitNewVenue(e) {
         addVenueAlerter.alertError("All fields are required")
     }
     else {
-        sendRequestForData('https://cloudindividualprojectfa.azurewebsites.net/api/InsertNewVenue',
+        sendRequestToAzure('https://cloudindividualprojectfa.azurewebsites.net/api/InsertNewVenue',
             (res) => res.status === 200 ? addUserAlerter.alertSuccess("Successfully added venue") : res.status === 400 ? addUserAlerter.alertError("That is not a valid UK Postcode") : addUserAlerter.alertError("Failed to add venue (" + res.status + ")"),
             JSON.stringify({
                 vname: vname,

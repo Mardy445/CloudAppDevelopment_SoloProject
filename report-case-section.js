@@ -4,7 +4,7 @@ let reportCaseAlerter = new ErrorMessageFunctionality("reportCaseAlertDiv");
 document.getElementById("reportCaseForm").addEventListener("submit",submitReportedCase);
 
 //An instance of BootsrapSearchBarListFunctionality to link a search bar to a Bootstrap list
-let reportSearchBarFunctionality = new BootstrapSearchBarListFunctionality("reportCaseSearchBar","reportCaseUserList",userSelectedForReportingCase,"https://cloudindividualprojectfa.azurewebsites.net/api/getUsers",(input,input2) => input ? "(PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "') or (Surname ge '" + input + "' and Surname lt '" + input2 + "')": input, (value) => value.Surname + ", " + value.PartitionKey + ", " + value.RowKey);
+let reportSearchBarFunctionality = new BootstrapSearchBarListFunctionality("reportCaseSearchBar","reportCaseUserList",userSelectedForReportingCase,"https://cloudindividualprojectfa.azurewebsites.net/api/getUsers",(input,input2) => input ? "(PartitionKey ge '" + input + "' and PartitionKey lt '" + input2 + "') or (Surname ge '" + input + "' and Surname lt '" + input2 + "')": input, (value) => value.Surname + ", " + value.PartitionKey + ", " + value.RowKey.toLowerCase());
 
 //When a user is clicked in the Bootstrap list...
 //Sets the visual output box to be said user, and set the selectedUserForReporting value to also be this user
@@ -33,7 +33,7 @@ function submitReportedCase(e) {
 
         let pkey = selectedUserForReporting.Surname + "_" + selectedUserForReporting.RowKey;
 
-        sendRequestForData('https://cloudindividualprojectfa.azurewebsites.net/api/addAlert',
+        sendRequestToAzure('https://cloudindividualprojectfa.azurewebsites.net/api/addAlert',
             (res) => res.status === 200 ? reportCaseAlerter.alertSuccess("Successfully added alert") : reportCaseAlerter.alertError("ERROR: Failed to add alert (" + res.status + ")"),
             JSON.stringify({
                 pkey: pkey,

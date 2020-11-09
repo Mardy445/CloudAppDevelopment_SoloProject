@@ -3,7 +3,7 @@ let viewAlertsTable = document.getElementById("viewAlertsTable");
 //This function begins the sequence of steps required to get all users that need to self isolate
 //It will simply request for the data on all "Alerts" and will then call upon the "getVenuesAlertsVisited" function
 function getAlerts() {
-    sendRequestForData("https://cloudindividualprojectfa.azurewebsites.net/api/getAlerts",getVenuesAlertsVisited,"", true)
+    sendRequestToAzure("https://cloudindividualprojectfa.azurewebsites.net/api/getAlerts",getVenuesAlertsVisited,"", true)
 }
 
 //This function is given data on all the "Alerts" (IE People who have been reported to have Covid-19
@@ -21,7 +21,7 @@ function getVenuesAlertsVisited(data) {
         query = query !== "" ? query + " or " : query;
         query = query + "(PartitionKey eq '" + id + "' and RowKey gt '" + alertDateTimeFortnightAgo.toISOString() + "')";
     }
-    sendRequestForData("https://cloudindividualprojectfa.azurewebsites.net/api/getCheckInDataForUser", givenVenuesGetUsersWhoNeedToSelfIsolate,
+    sendRequestToAzure("https://cloudindividualprojectfa.azurewebsites.net/api/getCheckInDataForUser", givenVenuesGetUsersWhoNeedToSelfIsolate,
         JSON.stringify({
             query: query,
         }), true)
@@ -42,7 +42,7 @@ function givenVenuesGetUsersWhoNeedToSelfIsolate(data) {
         query = query !== "" ? query + " or " : query;
         query = query + "(VenueName eq '" + venueName + "' and RowKey gt '" + checkInDateTimeLowerBound.toISOString() + "' and RowKey lt '" + checkInDateTimeUpperBound.toISOString() + "')";
     }
-    sendRequestForData("https://cloudindividualprojectfa.azurewebsites.net/api/getUsersWhoNeedToSelfIsolate", addSelfIsolateUserToTable,
+    sendRequestToAzure("https://cloudindividualprojectfa.azurewebsites.net/api/getUsersWhoNeedToSelfIsolate", addSelfIsolateUserToTable,
         JSON.stringify({
             query: query,
         }), true)
@@ -66,10 +66,8 @@ function addSelfIsolateUserToTable(data) {
         let row = viewAlertsTable.insertRow();
         let cell1 = row.insertCell(0);
         let cell2 = row.insertCell(1);
-        let cell3 = row.insertCell(2);
-        cell1.innerHTML = id;
-        cell2.innerHTML = "";
-        cell3.innerHTML = map.get(id);
+        cell1.innerHTML = id.toLowerCase();
+        cell2.innerHTML = map.get(id);
     }
 }
 
@@ -79,7 +77,7 @@ function getMapOfSelfIsolatingUsersLastExposure(data) {
     let map = new Map();
     for(let i = 0; i < data.length; i++){
         let element = data[i];
-        let id = element.PartitionKey;
+        let id = element.UserName + " " + element.PartitionKey.replace("_"," ");
         let checkInDateTime = convertISODateTimeToDateObject(element.RowKey);
         let daysSinceExposure = (Math.floor((new Date().getTime() - checkInDateTime.getTime())/86400000));
         if(map.has(id)){
