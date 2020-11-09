@@ -9,14 +9,20 @@ let viewDataUsersSearchBarFunctionality = new BootstrapSearchBarListFunctionalit
 //Requests data for the users who have entered that venue and fills the table
 function venueDataListElementListener(e,obj) {
     viewDataTableColumns.innerHTML = "<th scope=\"col\">Venue</th>\n<th scope=\"col\">Datetime</th>"
-    sendRequestForData("VenueName eq '" + obj.PartitionKey + "'", "https://cloudindividualprojectfa.azurewebsites.net/api/getVisitorDataForVenue", fillTable)
+    sendRequestForData("https://cloudindividualprojectfa.azurewebsites.net/api/getVisitorDataForVenue", fillTable,
+        JSON.stringify({
+            query: "VenueName eq '" + obj.PartitionKey + "'",
+        }),true)
 }
 
 //When a user is selected from the Bootstrap list...
 //Requests data for the venues that user has visited and fills the list
 function userDataListElementListener(e,obj) {
     viewDataTableColumns.innerHTML = "<th scope=\"col\">User</th>\n<th scope=\"col\">Datetime</th>"
-    sendRequestForData("PartitionKey eq '" + obj.Surname + "_" + obj.RowKey + "'", "https://cloudindividualprojectfa.azurewebsites.net/api/getCheckInDataForUser", fillTable)
+    sendRequestForData( "https://cloudindividualprojectfa.azurewebsites.net/api/getCheckInDataForUser", fillTable,
+        JSON.stringify({
+            query: "PartitionKey eq '" + obj.Surname + "_" + obj.RowKey + "'",
+        }),true)
 
 }
 

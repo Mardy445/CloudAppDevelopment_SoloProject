@@ -67,11 +67,15 @@ function submitCheckIn() {
     else if(document.getElementById("checkinDatePicker").value === ""){
         checkInAlerter.alertError("Please select a valid date")
     }
+    else if(document.getElementById("checkinDatePicker").value > new Date().toISOString()){
+        reportCaseAlerter.alertError("Cannot select date in the future")
+    }
     else{
         for(let i = 0; i < users.length; i++){
             submitUserForCheckIn(users[i]);
         }
         emptyCheckInValues();
+        document.getElementById("checkinDatePicker").value = "";
     }
 }
 
@@ -82,19 +86,14 @@ function submitUserForCheckIn(user) {
     let fname = user.PartitionKey;
     let vname = venue.PartitionKey
 
-    fetch('https://cloudindividualprojectfa.azurewebsites.net/api/addNewCheckIn', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-            pkey: pkey,
-            rkey: rkey,
-            fname: fname,
-            vname: vname
-        })
-    }).then((res) => res.status === 200 ? checkInAlerter.alertSuccess("Form Submitted!") : checkInAlerter.alertError("Error submitting form"))
+    sendRequestForData('https://cloudindividualprojectfa.azurewebsites.net/api/addNewCheckIn',
+            (res) => res.status === 200 ? checkInAlerter.alertSuccess("Form Submitted!") : checkInAlerter.alertError("Error submitting form (" + res.status + ")"),
+            JSON.stringify({
+                pkey: pkey,
+                rkey: rkey,
+                fname: fname,
+                vname: vname
+            }), false)
 }
 
 

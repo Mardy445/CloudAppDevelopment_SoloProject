@@ -25,22 +25,22 @@ function submitReportedCase(e) {
     else if(rkey === ""){
         reportCaseAlerter.alertError("Please select a date and time")
     }
+    else if(rkey > new Date().toISOString()){
+        reportCaseAlerter.alertError("Cannot select date in the future")
+    }
     else {
         document.getElementById("reportUserFinalInput").value = "";
 
         let pkey = selectedUserForReporting.Surname + "_" + selectedUserForReporting.RowKey;
 
-        fetch('https://cloudindividualprojectfa.azurewebsites.net/api/addAlert', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({
+        sendRequestForData('https://cloudindividualprojectfa.azurewebsites.net/api/addAlert',
+            (res) => res.status === 200 ? reportCaseAlerter.alertSuccess("Successfully added alert") : reportCaseAlerter.alertError("ERROR: Failed to add alert (" + res.status + ")"),
+            JSON.stringify({
                 pkey: pkey,
                 rkey: rkey
-            })
-        }).then((res) => res.status === 200 ? reportCaseAlerter.alertSuccess("Successfully added alert") : reportCaseAlerter.alertError("ERROR: Failed to add alert (" + res.status + ")"));
+            }), false)
+
         selectedUserForReporting = null;
+        document.getElementById("reportDatePicker").value = "";
     }
 }

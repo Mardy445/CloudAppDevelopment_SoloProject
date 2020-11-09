@@ -34,20 +34,26 @@ function reportTabClicked() {
 }
 
 function addTabClicked(){
-
+    refreshUserInputs();
+    refreshVenueInputs();
 }
 
 //This function is used to call upon Azure API functions
 //It exists in main.js as every other file may need to use it
-function sendRequestForData(query, url, response) {
+function sendRequestForData(url, response, body, expectResult) {
     fetch(url, {
         method: 'POST',
         headers: {
             'Accept': 'application/json, text/plain, */*',
             'Content-type': 'application/json'
         },
-        body: JSON.stringify({
-            query: query,
-        })
-    }).then((res) => res.json().then((data) => response(data)))
+        body: body
+    }).then((res) => {
+        if(res.status === 200 && expectResult){
+            res.json().then((data) => response(data))
+        }
+        else{
+            response(res)
+        }
+    })
 }

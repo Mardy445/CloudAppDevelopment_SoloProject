@@ -4,6 +4,19 @@ document.getElementById('inputNewVenue').addEventListener('submit', submitNewVen
 let addUserAlerter = new ErrorMessageFunctionality("addUserAlertDiv");
 let addVenueAlerter = new ErrorMessageFunctionality("addVenueAlertDiv");
 
+function refreshUserInputs(){
+    document.getElementById('fname').value = "";
+    document.getElementById('lname').value = "";
+    document.getElementById('email').value = "";
+}
+
+function refreshVenueInputs(){
+    document.getElementById('vname').value = "";
+    document.getElementById('postcode').value = "";
+    document.getElementById('address').value = "";
+}
+
+
 //When the submit button is pressed...
 //Attempts to submit the data for a new user to Azure
 function submitNewUser(e) {
@@ -15,19 +28,17 @@ function submitNewUser(e) {
         addUserAlerter.alertError("All fields are required")
     }
     else {
-        fetch('https://cloudindividualprojectfa.azurewebsites.net/api/InsertNewUser', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({
+
+        sendRequestForData('https://cloudindividualprojectfa.azurewebsites.net/api/InsertNewUser',
+            (res) => res.status === 200 ? addUserAlerter.alertSuccess("Successfully added user") : addUserAlerter.alertError("Failed to add user (" + res.status + ")"),
+            JSON.stringify({
                 fname: fname,
                 lname: lname,
                 email: email
-            })
-        }).then((res) => res.status === 200 ? addUserAlerter.alertSuccess(res.text()) : addUserAlerter.alertError(res.text()))
+            }), false)
     }
+
+    refreshUserInputs();
 }
 
 //When the submit button is pressed...
@@ -42,17 +53,13 @@ function submitNewVenue(e) {
         addVenueAlerter.alertError("All fields are required")
     }
     else {
-        fetch('https://cloudindividualprojectfa.azurewebsites.net/api/InsertNewVenue', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({
+        sendRequestForData('https://cloudindividualprojectfa.azurewebsites.net/api/InsertNewVenue',
+            (res) => res.status === 200 ? addUserAlerter.alertSuccess("Successfully added venue") : addUserAlerter.alertError("Failed to add venue (" + res.status + ")"),
+            JSON.stringify({
                 vname: vname,
                 postcode: postcode,
                 address: address
-            })
-        }).then((res) => res.status === 200 ? addVenueAlerter.alertSuccess("Successfully added venue") : addVenueAlerter.alertError("ERROR: Failed to add venue (" + res.status + ")"))
+            }), false)
     }
+    refreshVenueInputs();
 }

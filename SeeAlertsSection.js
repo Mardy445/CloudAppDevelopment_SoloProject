@@ -3,7 +3,7 @@ let viewAlertsTable = document.getElementById("viewAlertsTable");
 //This function begins the sequence of steps required to get all users that need to self isolate
 //It will simply request for the data on all "Alerts" and will then call upon the "getVenuesAlertsVisited" function
 function getAlerts() {
-    sendRequestForData("", "https://cloudindividualprojectfa.azurewebsites.net/api/getAlerts",getVenuesAlertsVisited)
+    sendRequestForData("https://cloudindividualprojectfa.azurewebsites.net/api/getAlerts",getVenuesAlertsVisited,"", true)
 }
 
 //This function is given data on all the "Alerts" (IE People who have been reported to have Covid-19
@@ -21,7 +21,10 @@ function getVenuesAlertsVisited(data) {
         query = query !== "" ? query + " or " : query;
         query = query + "(PartitionKey eq '" + id + "' and RowKey gt '" + alertDateTimeFortnightAgo.toISOString() + "')";
     }
-    sendRequestForData(query,"https://cloudindividualprojectfa.azurewebsites.net/api/getCheckInDataForUser", givenVenuesGetUsersWhoNeedToSelfIsolate)
+    sendRequestForData("https://cloudindividualprojectfa.azurewebsites.net/api/getCheckInDataForUser", givenVenuesGetUsersWhoNeedToSelfIsolate,
+        JSON.stringify({
+            query: query,
+        }), true)
 
 }
 
@@ -39,7 +42,10 @@ function givenVenuesGetUsersWhoNeedToSelfIsolate(data) {
         query = query !== "" ? query + " or " : query;
         query = query + "(VenueName eq '" + venueName + "' and RowKey gt '" + checkInDateTimeLowerBound.toISOString() + "' and RowKey lt '" + checkInDateTimeUpperBound.toISOString() + "')";
     }
-    sendRequestForData(query, "https://cloudindividualprojectfa.azurewebsites.net/api/getUsersWhoNeedToSelfIsolate", addSelfIsolateUserToTable)
+    sendRequestForData("https://cloudindividualprojectfa.azurewebsites.net/api/getUsersWhoNeedToSelfIsolate", addSelfIsolateUserToTable,
+        JSON.stringify({
+            query: query,
+        }), true)
 
 }
 

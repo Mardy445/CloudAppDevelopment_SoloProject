@@ -1,6 +1,7 @@
 class ErrorMessageFunctionality{
     constructor(id){
         this.id = id;
+        document.body.addEventListener('mouseup', () => this.clearMessageDiv(), true);
     }
 
     clearMessageDiv(){
