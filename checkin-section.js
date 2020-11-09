@@ -1,5 +1,5 @@
-let cinvname = document.getElementById("cin_vname");
-let cinfname = document.getElementById("cin_fname");
+let cinvname = document.getElementById("checkinVName");
+let cinfname = document.getElementById("checkinFName");
 
 let checkInAlerter = new ErrorMessageFunctionality("checkinAlertDiv");
 
