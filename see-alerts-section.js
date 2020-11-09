@@ -1,8 +1,10 @@
 let viewAlertsTable = document.getElementById("viewAlertsTable");
+let alertsLoading = document.getElementById("alertsLoading");
 
 //This function begins the sequence of steps required to get all users that need to self isolate
 //It will simply request for the data on all "Alerts" and will then call upon the "getVenuesAlertsVisited" function
 function getAlerts() {
+    alertsLoading.innerText = "Please Wait";
     sendRequestToAzure("https://cloudindividualprojectfa.azurewebsites.net/api/getAlerts",getVenuesAlertsVisited,"", true)
 }
 
@@ -67,6 +69,7 @@ function convertISODateTimeToDateObject(isoDateTime){
 function addSelfIsolateUserToTable(data) {
     let map = getMapOfSelfIsolatingUsersLastExposure(data);
 
+    alertsLoading.innerText = "";
     viewAlertsTable.innerHTML="";
     for(let id of map.keys()){
         let row = viewAlertsTable.insertRow();

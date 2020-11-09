@@ -19,14 +19,23 @@
     margin: 10px !important;
 }
 
+table{
+    width: 98% !important;
+}
+
+
 .form-group {
     max-width: 500px !important;
 }
 
-h3, .form-group, .btn, .list-group, .padding{
+h3, h4, .form-group, .btn, .list-group, .padding{
     margin: 10px !important;
     padding: 5px !important;
     padding-bottom: 0 !important;
+}
+
+h4{
+    color: red !important;
 }
 
 .list-group{
