@@ -13,7 +13,6 @@ function refreshUserInputs(){
 function refreshVenueInputs(){
     document.getElementById('vname').value = "";
     document.getElementById('postcode').value = "";
-    document.getElementById('address').value = "";
 }
 
 
@@ -48,8 +47,7 @@ function submitNewVenue(e) {
 
     let vname = document.getElementById('vname').value.toUpperCase();
     let postcode = document.getElementById('postcode').value.toUpperCase();
-    let address = document.getElementById('address').value.toUpperCase();
-    if(vname === "" || postcode === "" || address === ""){
+    if(vname === "" || postcode === ""){
         addVenueAlerter.alertError("All fields are required")
     }
     else {
@@ -58,7 +56,6 @@ function submitNewVenue(e) {
             JSON.stringify({
                 vname: vname,
                 postcode: postcode,
-                address: address
             }), false)
     }
     refreshVenueInputs();
