@@ -12,16 +12,18 @@ function getAlerts() {
 //This data is passed onto the next function in the sequence "givenVenuesGetUsersWhoNeedToSelfIsolate"
 function getVenuesAlertsVisited(data) {
     let query = "";
+    let usersKnownToHaveCovid = [];
     for(let a = 0; a < data.length; a++){
         let alert = data[a];
         let id = alert.PartitionKey;
+        usersKnownToHaveCovid.push(id);
         let alertDateTime = convertISODateTimeToDateObject(alert.RowKey);
         let alertDateTimeFortnightAgo = new Date(alertDateTime.setDate(alertDateTime.getDate()-14));
 
         query = query !== "" ? query + " or " : query;
         query = query + "(PartitionKey eq '" + id + "' and RowKey gt '" + alertDateTimeFortnightAgo.toISOString() + "')";
     }
-    sendRequestToAzure("https://cloudindividualprojectfa.azurewebsites.net/api/getCheckInDataForUser", givenVenuesGetUsersWhoNeedToSelfIsolate,
+    sendRequestToAzure("https://cloudindividualprojectfa.azurewebsites.net/api/getCheckInDataForUser", (data) => givenVenuesGetUsersWhoNeedToSelfIsolate(data,usersKnownToHaveCovid),
         JSON.stringify({
             query: query,
         }), true)
@@ -30,7 +32,7 @@ function getVenuesAlertsVisited(data) {
 
 //Given data on the venues that all "Alerts" visited in the last 14 days, this function create a query that will get all users that were in the venue on the same day.
 //These users will then be passed onto the final function that will put the appropriate data into the table.
-function givenVenuesGetUsersWhoNeedToSelfIsolate(data) {
+function givenVenuesGetUsersWhoNeedToSelfIsolate(data, usersKnownToHaveCovid) {
     let query = "";
     for(let b = 0; b < data.length; b++) {
         let venueData = data[b];
@@ -41,6 +43,10 @@ function givenVenuesGetUsersWhoNeedToSelfIsolate(data) {
 
         query = query !== "" ? query + " or " : query;
         query = query + "(VenueName eq '" + venueName + "' and RowKey gt '" + checkInDateTimeLowerBound.toISOString() + "' and RowKey lt '" + checkInDateTimeUpperBound.toISOString() + "')";
+    }
+    query = usersKnownToHaveCovid.length > 0 ? "(" + query + ")" : "";
+    for(let i = 0; i < usersKnownToHaveCovid.length; i++){
+        query = query + " and PartitionKey ne '" + usersKnownToHaveCovid[i] + "'"
     }
     sendRequestToAzure("https://cloudindividualprojectfa.azurewebsites.net/api/getUsersWhoNeedToSelfIsolate", addSelfIsolateUserToTable,
         JSON.stringify({
