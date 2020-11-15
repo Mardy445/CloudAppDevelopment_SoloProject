@@ -60,7 +60,7 @@ function givenVenuesGetUsersWhoNeedToSelfIsolate(data, usersKnownToHaveCovid) {
 //This function takes an ISODateTime string and converts it into a Date object.
 //I decided not to use the parse method in the Date object as it is known to be unstable in certain browsers.
 function convertISODateTimeToDateObject(isoDateTime){
-    let splitdt = isoDateTime.replace("T","-").replace(":","-").split("-").map(x=>+x);
+    let splitdt = isoDateTime.replace("T","-").replace(":","-").replace(":","-").split("-").map(x=>+x);
     return new Date(splitdt[0],splitdt[1]-1,splitdt[2],splitdt[3],splitdt[4]);
 }
 

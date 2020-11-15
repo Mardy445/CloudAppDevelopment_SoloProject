@@ -12,6 +12,7 @@ class BootstrapSearchBarListFunctionality {
 
     //This function will take the value from the venueSearchBar, convert it into a query, and pass it to the request for data function
     refreshSearch() {
+        document.getElementById(this.ul).innerHTML = "<h4> Please Wait </\h4>";
         let input = document.getElementById(this.searchBar).value.toUpperCase();
         let input2 = input.slice(0,-1) + String.fromCharCode(input.charCodeAt(input.length-1)+1);
         let query = this.queryFunction(input,input2);
