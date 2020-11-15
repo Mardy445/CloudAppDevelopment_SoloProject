@@ -22,6 +22,7 @@ function checkinTabClicked() {
     emptyCheckInValues();
     checkinVenueSearchBarFunctionality.refreshSearch();
     checkinUserSearchBarFunctionality.refreshSearch();
+    document.getElementById("checkinTimePicker").value = getCurrentTime();
 }
 
 function viewCheckInTabClicked() {
@@ -32,6 +33,15 @@ function viewCheckInTabClicked() {
 
 function reportTabClicked() {
     reportSearchBarFunctionality.refreshSearch();
+    document.getElementById("reportTimePicker").value = getCurrentTime();
+}
+
+function getCurrentTime() {
+    let hours = new Date().getHours();
+    let minutes = new Date().getMinutes();
+    hours = (hours < 10 ? "0" : "") + hours;
+    minutes = (minutes < 10 ? "0" : "") + minutes;
+    return hours + ":" + minutes
 }
 
 function addTabClicked(){
