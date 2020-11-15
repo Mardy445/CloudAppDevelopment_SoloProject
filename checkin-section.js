@@ -58,32 +58,37 @@ function getIndexOfUser(obj){
 //Attempts to submit the user selected data to the CheckIn table on azure.
 //An error message will be returns if no venue or users are selected.
 function submitCheckIn() {
+    let checkinDate = document.getElementById("checkinDatePicker").value;
+    let checkinTime = document.getElementById("checkinTimePicker").value;
+    let checkinDateTime = checkinDate + "T" + checkinTime;
+
     if(venue === null){
         checkInAlerter.alertError("The form cannot be submitted unless you select a venue!")
     }
     else if(users.length === 0){
         checkInAlerter.alertError("The form cannot be submitted unless you select at least 1 user!")
     }
-    else if(document.getElementById("checkinDatePicker").value === ""){
+    else if(checkinDate === "" || checkinTime === ""){
         checkInAlerter.alertError("Please select a valid date and time")
     }
-    else if(document.getElementById("checkinDatePicker").value > new Date().toISOString()){
-        reportCaseAlerter.alertError("Cannot select date in the future")
+    else if(checkinDateTime > new Date().toISOString()){
+        checkInAlerter.alertError("Cannot select date in the future")
     }
     else{
         for(let i = 0; i < users.length; i++){
-            submitUserForCheckIn(users[i]);
+            submitUserForCheckIn(users[i],checkinDateTime);
         }
         emptyCheckInValues();
         document.getElementById("checkinDatePicker").value = "";
+        document.getElementById("checkinTimePicker").value = "";
     }
 }
 
 //Given a user (user), attempts to check them in to the specified venue
-function submitUserForCheckIn(user) {
+function submitUserForCheckIn(user, datetime) {
     let currentSeconds = (new Date()).toISOString().split(":")[2];
     let pkey = user.Surname + "_" + user.RowKey;
-    let rkey = document.getElementById("checkinDatePicker").value + ":" + currentSeconds;
+    let rkey = datetime +  ":" + currentSeconds;
     let fname = user.PartitionKey;
     let vname = venue.PartitionKey;
 
