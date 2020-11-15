@@ -32,6 +32,7 @@ h3, h4, .form-group, .btn, .list-group, .padding{
     margin: 10px !important;
     padding: 5px !important;
     padding-bottom: 0 !important;
+    padding-top: 0 !important;
 }
 
 h4{

@@ -17,12 +17,14 @@ function userSelectedForReportingCase(e,obj){
 //Attempts to send the alert to the Azure function addAlert
 //Will not send if no user selected
 function submitReportedCase(e) {
-    let rkey = document.getElementById("reportDatePicker").value;
+    let reportDate = document.getElementById("reportDatePicker").value;
+    let reportTime = document.getElementById("reportTimePicker").value;
+    let rkey = reportDate + "T" + reportTime;
 
     if(selectedUserForReporting===null){
         reportCaseAlerter.alertError("Please selected a user");
     }
-    else if(rkey === ""){
+    else if(reportDate === "" || reportTime=== ""){
         reportCaseAlerter.alertError("Please select a date and time")
     }
     else if(rkey > new Date().toISOString()){
@@ -38,9 +40,10 @@ function submitReportedCase(e) {
             JSON.stringify({
                 pkey: pkey,
                 rkey: rkey
-            }), false)
+            }), false);
 
         selectedUserForReporting = null;
         document.getElementById("reportDatePicker").value = "";
+        document.getElementById("reportTimePicker").value = "";
     }
 }

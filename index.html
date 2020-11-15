@@ -65,8 +65,11 @@
 
             </div>
             <form id="reportCaseForm" onsubmit="return false">
-                <label for="reportDatePicker" class="padding">Date of Discovered Case:</label>
-                <input type="datetime-local" id="reportDatePicker">
+                <label for="reportDatePicker" class="padding">Date and Time of Discovered Case:</label>
+                <div class="padding">
+                    <input type="date" id="reportDatePicker">
+                    <input type="time" id="reportTimePicker">
+                </div>
                 <div class="form-group">
                     <label for="reportUserFinalInput">Selected User:</label>
                     <input type="text" class="form-control" id="reportUserFinalInput" readonly>
